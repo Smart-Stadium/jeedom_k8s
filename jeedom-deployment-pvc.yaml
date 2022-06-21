@@ -26,10 +26,6 @@ spec:
          name: pvc-evs-jeedomwww-cic
        - mountPath: /var/lib/mysql
          name: pvc-evs-jeedomdb-cic
-       #resources: 
-       #   requests:
-       #       cpu: 2
-       #       memory: 4096Mi
      volumes:
      - name: pvc-evs-jeedomwww-cic
        persistentVolumeClaim:
