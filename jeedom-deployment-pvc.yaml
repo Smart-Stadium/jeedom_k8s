@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ labels:
+  env: jeedom
+ name: jeedom-cic
+ namespace: audiovideo-cic
+spec:
+ replicas: 2
+ selector:
+   matchLabels:
+     app: jeedom-cic
+ strategy:
+   type: RollingUpdate
+ template:
+   metadata:
+     labels:
+       app: jeedom-cic
+   spec:
+     containers:
+     - image: jeedom/jeedom:latest
+       #imagePullPolicy: Always
+       name: jeedom-server
+       volumeMounts:        
+       - mountPath: /var/www/html
+         name: pvc-evs-jeedomwww-cic
+       - mountPath: /var/lib/mysql
+         name: pvc-evs-jeedomdb-cic
+       #resources: 
+       #   requests:
+       #       cpu: 2
+       #       memory: 4096Mi
+     volumes:
+     - name: pvc-evs-jeedomwww-cic
+       persistentVolumeClaim:
+          claimName: cce-evs-jeedomwww-cic
+     - name: pvc-evs-jeedomdb-cic
+       persistentVolumeClaim:
+          claimName: cce-evs-jeedomdb-cic
+     imagePullSecrets:
+       - name: default-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+ labels:
+   app: jeedom-cic
+ name: jeedom-cic-nodeport
+ namespace: audiovideo-cic
+spec:
+ ports:
+ - name: jeedom
+   nodePort: 30980
+   port: 80  
+   protocol: TCP
+   targetPort: 80
+ selector:
+   app: jeedom-cic
+ type: NodePort 
