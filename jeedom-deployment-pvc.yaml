@@ -6,7 +6,7 @@ metadata:
  name: jeedom-cic
  namespace: audiovideo-cic
 spec:
- replicas: 2
+ replicas: 1
  selector:
    matchLabels:
      app: jeedom-cic
