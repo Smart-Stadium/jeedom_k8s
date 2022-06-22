@@ -33,8 +33,6 @@ spec:
      - name: pvc-evs-jeedomdb-cic
        persistentVolumeClaim:
           claimName: cce-evs-jeedomdb-cic
-     imagePullSecrets:
-       - name: default-secret
 
 ---
 
